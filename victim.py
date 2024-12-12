@@ -2,20 +2,19 @@ import socket
 import subprocess
 import logging
 
-# Victim Configuration
-HOST = "0.0.0.0"  # Listen on all available interfaces
-PORT = 9999  # Port to listen on
-
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
-
 def main():
+    # Prompt the user for IP address and port
+    host = input("Enter the IP address to bind to (e.g., 0.0.0.0 for all interfaces): ").strip()
+    port = int(input("Enter the port to listen on: ").strip())
+
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         try:
-            server_socket.bind((HOST, PORT))
+            server_socket.bind((host, port))
             server_socket.listen(1)
-            logging.info(f"Listening on {HOST}:{PORT}")
+            logging.info(f"Listening on {host}:{port}")
 
             while True:
                 conn, addr = server_socket.accept()
@@ -47,7 +46,6 @@ def main():
             logging.error(f"Server error: {e}")
         finally:
             logging.info("Server shutting down.")
-
 
 if __name__ == "__main__":
     main()

